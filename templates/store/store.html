@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Tech for the Modern Era.</h1>
+        <p>Premium, sleek, and minimalist gear designed to elevate your workspace and gaming experience.</p>
+        <a href="#products" class="btn btn-primary">Shop Now</a>
+    </div>
+</section>
+
+<h2 class="section-title" id="products">New Arrivals.</h2>
+
+<div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+        {% else %}
+            <div style="background:var(--surface-color); flex:1; display:flex; align-items:center; justify-content:center;">No Image Available</div>
+        {% endif %}
+        
+        <div class="product-info">
+            <h4 class="product-name">{{ product.name }}</h4>
+            <div class="product-price">${{ product.price|floatformat:2 }}</div>
+            
+            <div class="product-actions">
+                <a href="{% url 'product' product.id %}" class="btn btn-outline" style="text-align: center;">View Details</a>
+                <form action="#" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <!-- For simplicity right now we'll mock cart JS -->
+                    <button class="btn btn-primary" onclick="alert('Added to cart mock')">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

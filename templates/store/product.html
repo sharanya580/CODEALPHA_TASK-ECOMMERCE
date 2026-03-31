@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="product-detail-container">
+    <div class="product-detail-img">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+            <div>No Image Available</div>
+        {% endif %}
+    </div>
+
+    <div class="product-detail-info">
+        <h1>{{ product.name }}</h1>
+        <h3>${{ product.price|floatformat:2 }}</h3>
+        <p>{{ product.description }}</p>
+        
+        <div style="margin-top: 2rem;">
+            <button class="btn btn-primary" style="margin-right: 1rem;" onclick="alert('Added to cart mock')">Add to Cart</button>
+            <a href="{% url 'store' %}" class="btn btn-outline">Back to Store</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

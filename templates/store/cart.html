@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="section-title">Your Cart.</div>
+
+{% if items %}
+    <div style="background: var(--surface-color); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 2rem; color: var(--text-secondary);">
+            <div>Product</div>
+            <div>Price</div>
+            <div>Quantity</div>
+            <div>Total</div>
+        </div>
+
+        {% for item in items %}
+            <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; align-items: center; margin-bottom: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="" style="width: 80px; height: 80px; object-fit: contain; background: rgba(255,255,255,0.05); padding: 0.5rem; border-radius: 8px;">
+                    {% endif %}
+                    <div>{{ item.product.name }}</div>
+                </div>
+                <div>${{ item.product.price|floatformat:2 }}</div>
+                <div>{{ item.quantity }}</div>
+                <div>${{ item.get_total|floatformat:2 }}</div>
+            </div>
+        {% endfor %}
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 1.2rem;">Total Items: <strong>{{ order.get_cart_items }}</strong></div>
+            <div style="font-size: 1.5rem;">Total Price: <strong style="color: var(--accent-color);">${{ order.get_cart_total|floatformat:2 }}</strong></div>
+        </div>
+        
+        <div style="margin-top: 2rem; text-align: right;">
+            <a href="{% url 'store' %}" class="btn btn-outline" style="margin-right: 1rem;">Continue Shopping</a>
+            <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+        </div>
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 4rem; background: var(--surface-color); border-radius: 16px; border: 1px solid var(--border-color);">
+        <h3 style="margin-bottom: 1rem;">Your cart is empty.</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">Looks like you haven't added any premium gear to your cart yet.</p>
+        <a href="{% url 'store' %}" class="btn btn-primary">Shop Now</a>
+    </div>
+{% endif %}
+
+{% endblock content %}
